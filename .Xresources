@@ -1,0 +1,165 @@
+!! ############################################
+!! ###		Configuración XFT - Fuentes		###
+!! ############################################
+
+Xft.dpi:                96
+Xft.autohint:           0       
+Xft.antialias:          true
+Xft.rgba:               rgb
+Xft.hinting:            true
+Xft.lcdfilter:          lcddefault
+Xft.hintstyle:          hintsfull
+
+!! ############################################
+!! ###		Configuración XFT - Fuentes		###
+!! ############################################
+
+
+
+
+!! ########################################
+!! ###		Configuración de URxvt		###
+!! ########################################
+
+!! ###		General		###
+
+URxvt.title:			Terminal
+URxvt.internalBorder:	10
+URxvt.externalBorder:	10
+!URxvt.lineSpace:        0
+!urxvt*shading:          30
+URxvt.depth:            32
+URxvt.letterSpace:      true
+URxvt.saveLines:        10000
+URxvt*geometry:         80x20
+!70x20
+URxvt*terminalName:     rxvt-unicode-256color
+URxvt*visualBell:       false
+
+!! ###		General		###
+
+
+!! ###		Barra de desplazamiento		###
+
+!URxvt.scrollStyle:      rxvt
+URxvt.scrollBar:         false
+URxvt*scrollTtyOutput:   false
+URxvt*scrollWithBuffer:  true
+URxvt*scrollTtyKeypress: true
+
+!! ###		Barra de desplazamiento		###
+
+
+!! ###		Fuentes		###
+
+!Inconsolata
+URxvt.font: xft:Inconsolata:size=8
+!URxvt.font: xft:FantasqueSansMono:size=8
+
+!! ###		Fuentes		###
+
+
+!! ###		Atajos de teclado		###
+
+URxvt.keysym.C-Up:       perl:font-size:increase
+URxvt.keysym.C-Down:     perl:font-size:decrease
+URxvt.keysym.C-S-Up:     perl:font-size:incglobal
+URxvt.keysym.C-S-Down:   perl:font-size:decglobal
+! Teclas Home y End para saltar del inicio y final de las lineas
+URxvt*keysym.Home:       \033[1~
+URxvt*keysym.End:        \033[4~
+
+!! ###		Atajos de teclado		###
+
+
+!! ###		Pestañas		###
+
+URxvt.tabbed.tabbar-bg:  -1
+URxvt.tabbed.tabbar-fg:  -2
+URxvt.tabbed.tab-bg:     -2
+URxvt.tabbed.tab-fg:     -1
+URxvt.tabbed.title-bg:   -1
+URxvt.tabbed.title-fg:   -2
+URxvt.tabbed.autohide:   true
+URxvt.tabbed.new-button: false
+URxvt.tabbed.title:      true
+
+!! ###		Pestañas		###
+
+
+!! ###		Extensiones Perl		###
+
+! url-select (parte del paquete urxvt-perls)
+URxvt.perl-ext-common:      default,clipboard,matcher,keyboard-select
+URxvt.keysym.M-u: perl:     url-select:select_next
+URxvt.url-select.autocopy:  true
+URxvt.url-select.button:    2
+URxvt.url-select.underline: true
+URxvt.url-launcher:         google-chrome-unstable
+URxvt.matcher.button:       1
+
+! Teclas para Copiar y Pegar
+URxvt.keysym.Shift-Control-V:   perl:clipboard:paste
+URxvt.keysym.Shift-Control-C:   perl:clipboard:copy
+
+! Desactivar la 'caracteristica' de Ctrl+Shift
+URxvt.iso14755:            false
+URxvt.iso14755_52:         false
+
+!! ###		Extensiones Perl		###
+
+
+!! ###		Cursor		###
+
+URxvt.cursorBlink:        false
+URxvt.colorUL:             #757978
+Xcursor.theme:             Adwaita
+
+!! Pointer
+!URxvt.pointerBlank:	true
+
+!! ###		Cursor		###
+
+
+!! ########################
+!! ###		Colores		###
+!! ########################
+
+#define base00 #1B2B34
+#define base01 #343D46
+#define base02 #4F5B66
+#define base03 #65737E
+#define base04 #A7ADBA
+#define base05 #C0C5CE
+#define base06 #CDD3DE
+#define base07 #D8DEE9
+#define base08 #EC5f67
+#define base09 #F99157
+#define base0A #FAC863
+#define base0B #99C794
+#define base0C #5FB3B3
+#define base0D #6699CC
+#define base0E #C594C5
+#define base0F #AB7967
+
+*.foreground:   base05
+*.background:   base00
+*.cursorColor:  base05
+
+*.color0:       base00
+*.color1:       base08
+*.color2:       base0B
+*.color3:       base0A
+*.color4:       base0D
+*.color5:       base0E
+*.color6:       base0C
+*.color7:       base05
+
+*.color8:       base03
+*.color9:       base08
+*.color10:      base0B
+*.color11:      base0A
+*.color12:      base0D
+*.color13:      base0E
+*.color14:      base0C
+*.color15: 		base07
