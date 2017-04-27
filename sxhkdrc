@@ -1,0 +1,166 @@
+#
+# Atajos de teclado independientes del administrador de ventanas
+# wm independent hotkeys
+#
+
+# Abrir el emulador de terminal
+# terminal emulator
+super + Return
+	urxvt
+
+# Lanzador de aplicaciones
+# program launcher
+super + space
+	rofi -show run
+
+# Recargar configuración de sxhkd
+# make sxhkd reload its configuration files:
+super + Escape
+	pkill -USR1 -x sxhkd
+
+#
+# Atajos de teclado de bspwm
+# bspwm hotkeys
+#
+
+# Salir de bspwm normalmente
+# quit bspwm normally
+super + alt + Escape
+	bspc quit
+
+# Cerrar aplicacion/ventana
+# close and kill
+super + {_,shift + }w
+	bspc node -{c,k}
+
+# Alternar entre el modo de mosaico y monóculo (una sola ventana en el escritorio)
+# alternate between the tiled and monocle layout
+super + m
+	bspc desktop -l next
+
+# if the current node is automatic, send it to the last manual, otherwise pull the last leaf
+super + y
+	bspc query -N -n focused.automatic && bspc node -n last.!automatic || bspc node last.leaf -n focused
+
+# swap the current node and the biggest node
+super + g
+	bspc node -s biggest
+
+#
+# state/flags
+#
+
+# Definir el estado de la ventana
+# set the window state
+super + {t,shift + t,s,f}
+	bspc node -t {tiled,pseudo_tiled,floating,fullscreen}
+
+# set the node flags
+super + ctrl + {x,y,z}
+	bspc node -g {locked,sticky,private}
+
+#
+# focus/swap
+#
+
+# focus the node in the given direction
+super + {_,shift + }{h,j,k,l}
+	bspc node -{f,s} {west,south,north,east}
+
+# focus the node for the given path jump
+super + {p,b,comma,period}
+	bspc node -f @{parent,brother,first,second}
+
+# focus the next/previous node
+super + {_,shift + }c
+	bspc node -f {next,prev}
+
+# Enfocar el siguiente/anterior escritorio
+# focus the next/previous desktop
+#super + bracket{left,right}
+super + alt + {Left,Right}
+	bspc desktop -f {prev,next}
+
+# Enfocar el ultimo nodo/escritorio
+# focus the last node/desktop
+super + {grave,Tab}
+	bspc {node,desktop} -f last
+
+# focus the older or newer node in the focus history
+super + {o,i}
+	bspc wm -h off; \
+	bspc node {older,newer} -f; \
+	bspc wm -h on
+
+# Enfocar o enviar al escritorio definido
+# focus or send to the given desktop
+super + {_,shift + }{1-9,0}
+	bspc {desktop -f,node -d} '^{1-9,10}'
+
+#
+# preselect
+#
+
+# Definir la dirección
+# preselect the direction
+#super + ctrl + {h,j,k,l}
+super + ctrl + {Left,Down,Up,Right}
+	bspc node -p {west,south,north,east}
+
+# preselect the ratio
+super + ctrl + {1-9}
+	bspc node -o 0.{1-9}
+
+# cancel the preselection for the focused node
+super + ctrl + space
+	bspc node -p cancel
+
+# cancel the preselection for the focused desktop
+super + ctrl + shift + space
+	bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
+
+#
+# Mover / Cambiar tamaño
+# move/resize
+#
+
+# Expandir una ventana moviendo uno de sus lados hacia afuera
+# expand a window by moving one of its side outward
+#super + alt + {h,j,k,l}
+super + alt + {Left,Down,Up,Right}
+	bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}
+
+# Contraer una ventana moviendo uno de sus lados hacia dentro
+# contract a window by moving one of its side inward
+#super + alt + shift + {h,j,k,l}
+super + alt + shift + {Left,Down,Up,Right}
+	bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
+
+# Mover una ventana flotante
+# move a floating window
+super + {Left,Down,Up,Right}
+	bspc node -v {-20 0,0 20,0 -20,20 0}
+
+### Aplicaciones
+ctrl + {1,2,3,4,5}
+	{urxvt -e htop --user alex,urxvt -e pacaur -Syu,pcmanfm,gedit,mpv --pseudo-gui}
+
+
+# Capturas de pantalla
+# Normal
+Print
+	scrot -q 100 '%d-%b-%Y_%H-%M-%S.png' -e 'mv $f ~/Imágenes/Capturas/'; \
+	notify-send "Captura guardada"
+# Selección
+Shift + Print
+	maim -s -m 10 ~/Imágenes/Capturas/$(date +%d-%b-%Y_%H-%M-%S).png; \
+	notify-send "Captura guardada"
+
+# Bloquear con script
+super + Shift + x
+	~/.shit/lock/lock.sh -s -b
+
+# Cambiar entre distribuciones de teclado
+# US con acentos, Español, Latinoamericano
+super + ctrl + alt + {u,e,l}
+	{setxkbmap -layout us -variant us-intl,setxkbmap es,setxkbmap latam}
