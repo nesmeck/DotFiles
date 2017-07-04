@@ -1,0 +1,55 @@
+[global]
+    font = Misc Tamsyn 8
+    allow_markup = yes
+    plain_text = no
+    word_wrap = yes
+    ignore_newline = no
+    monitor = 0
+    show_age_threshold = 60
+    format = "<b>%s</b>\n%b"
+    sort = yes  # Urgency sort.
+    indicate_hidden = yes
+    alignment = center
+    bounce_freq = 0
+    geometry = "350x100-4+20"
+    shrink = no
+    transparency = 75  # (100 - alpha)/100
+    idle_threshold = 45
+    follow = mouse
+    sticky_history = yes
+    history_length = 40
+    show_indicators = yes
+    line_height = 3
+    notification_height = 8
+    separator_height = 0
+    padding = 5
+    horizontal_padding = 8
+    separator_color = frame
+    browser = google-chrome-unstable
+    icon_position = left
+    icon_folders = /usr/share/icons/Numix-Circle/16x16/status/
+
+[frame]
+    width = 1
+    color = "#2E3440"
+
+[shortcuts]
+    close = ctrl+space
+    close_all = ctrl+shift+space
+    history = ctrl+h
+    context = ctrl+shift+period
+
+[urgency_low]
+    background = "#2E3440"
+    foreground = "#D8DEE9"
+    timeout = 1
+
+[urgency_normal]
+    background = "#2E3440"
+    foreground = "#88C0D0"
+    timeout = 1
+
+[urgency_critical]
+    background = "#2E3440"
+    foreground = "#BF616A"
+    timeout = 0

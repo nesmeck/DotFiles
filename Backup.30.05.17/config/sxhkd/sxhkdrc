@@ -1,0 +1,220 @@
+######################################################
+# Atajos independientes del administrador de ventanas
+# wm independent hotkeys
+######################################################
+
+# Emulador de terminal
+# terminal emulator
+super + Return
+	urxvt
+
+# Lanzador de aplicaciones
+# program launcher
+super + space
+	rofi -show run
+
+# Recargar configuración de sxhkd
+# make sxhkd reload its configuration files:
+super + Escape
+	pkill -USR1 -x sxhkd; \
+	notify-send "Config. de sxhkd recargada"
+
+####################
+# Atajos de bspwm
+# bspwm hotkeys
+####################
+
+# Salir de bspwm normalmente
+# quit bspwm normally
+super + alt + Escape
+	bspc quit
+
+# Cerrar y finalizar ventana/aplicación
+# close and kill
+super + {_,shift + } q
+	bspc node -{c,k}
+
+# Alternar entre la distribución de mosaico y monóculo (una ventana por escritorio)
+# alternate between the tiled and monocle layout
+super + m
+	bspc desktop -l next
+
+# if the current node is automatic, send it to the last manual, otherwise pull the last leaf
+super + y
+	bspc query -N -n focused.automatic && bspc node -n last.!automatic || bspc node last.leaf -n focused
+
+# swap the current node and the biggest node
+super + g
+	bspc node -s biggest
+
+#####################
+# Estado/condiciones
+# state/flags
+#####################
+
+# Establecer el estado de una ventana
+# set the window state
+super + {t,shift + t,s,f}
+	bspc node -t {tiled,pseudo_tiled,floating,fullscreen}
+
+# Establecer las condiciones de un nodo
+# set the node flags
+super + ctrl + {x,y,z}
+	bspc node -g {locked,sticky,private}
+
+###################
+# Enfocar/alternar
+# focus/swap
+###################
+
+# Enfocar el nodo en la dirección indicada
+# focus the node in the given direction
+#super + {_,shift + }{h,j,k,l}
+#super + {_,shift + }{Left,Down,Up,Right}
+super + shift + {Left,Down,Up,Right}
+	bspc node -{f,s} {west,south,north,east}
+
+# focus the node for the given path jump
+super + {p,b,comma,period}
+	bspc node -f @{parent,brother,first,second}
+
+# Enfocar el siguiente/anterior nodo
+# focus the next/previous node
+super + {_,shift + }c
+	bspc node -f {next,prev}
+
+# Enfocar el siguiente/anterior escritorio
+# focus the next/previous desktop
+# "Bracket" son los corchetes (en el caso de español son: ` y +)
+super + bracket{left,right}
+	bspc desktop -f {prev,next}
+
+# Enfocar el último nodo/escritorio
+# focus the last node/desktop
+# "Grave" es la tecla arriba de Tab (º)
+super + {grave,Tab}
+	bspc {node,desktop} -f last
+
+# Enfocar el nodo antiguo o reciente en el historial de foco
+# focus the older or newer node in the focus history
+super + {o,i}
+	bspc wm -h off; \
+	bspc node {older,newer} -f; \
+	bspc wm -h on
+
+# Enfocar o enviar al escritorio indicado
+# focus or send to the given desktop
+super + {_,shift + }{1-9,0}
+	bspc {desktop -f,node -d} '^{1-9,10}'
+
+##################
+# Preseleccionar
+# preselect
+##################
+
+# Preseleccionar la dirección
+# preselect the direction
+#super + ctrl + {h,j,k,l}
+super + ctrl + {Left,Down,Up,Right}
+	bspc node -p {west,south,north,east}
+
+# Preseleccionar el ratio
+# preselect the ratio
+super + ctrl + {1-9}
+	bspc node -o 0.{1-9}
+
+# Cancelar la preselección para el nodo enfocado
+# cancel the preselection for the focused node
+super + ctrl + space
+	bspc node -p cancel
+
+# Cancelar la preselección para el escritorio enfocado
+# cancel the preselection for the focused desktop
+super + ctrl + shift + space
+	bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
+
+########################
+# Mover/Cambiar tamaño
+# move/resize
+########################
+
+# Expandir una ventana moviendo uno de sus lados hacia fuera
+# expand a window by moving one of its side outward
+#super + alt + {h,j,k,l}
+super + alt + {Left,Down,Up,Right}
+	bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}
+
+# Contraer una ventana moviendo uno de sus lados hacia dentro
+# contract a window by moving one of its side inward
+#super + alt + shift + {h,j,k,l}
+super + alt + shift + {Left,Down,Up,Right}
+	bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
+
+# Mover una ventana flotante
+# move a floating window
+super + {Left,Down,Up,Right}
+	bspc node -v {-20 0,0 20,0 -20,20 0}
+
+##############
+# Personales
+##############
+
+# Bloquear con script
+super + alt + l
+	~/.shit/lock/lock.sh -s -b
+
+# Subir volumen
+XF86AudioRaiseVolume
+	pactl set-sink-volume 0 +5% && notify-send -u normal `~/.shit/dunst/volume level`
+
+# Bajar volumen
+XF86AudioLowerVolume
+	pactl set-sink-volume 0 -5% && notify-send -u normal `~/.shit/dunst/volume level`
+
+# Controlar reproducción
+{XF86AudioPlay,XF86AudioStop,XF86AudioNext,XF86AudioPrev}
+	{mpc toggle,mpc stop,mpc next,mpc prev}
+# Controlar Spotify
+ctrl + {XF86AudioPlay,XF86AudioStop,XF86AudioNext,XF86AudioPrev}
+	 {spotify-cli --playpause,spotify-cli --pause,spotify-cli --next,spotify --previous}
+
+# Capturas de pantalla
+# Normal
+Print
+	scrot -q 100 '%d-%b-%Y_%H-%M-%S.png' -e 'mv $f ~/Imágenes/Capturas/'; \
+	notify-send "Captura guardada"
+# Selección
+super + Print
+	maim -s -m 10 ~/Imágenes/Capturas/$(date +%d-%b-%Y_%H-%M-%S).png
+#; \
+#	notify-send "Captura guardada"
+
+# Teclado
+# Encender
+super + alt + o
+	xset led 3
+# Apagar
+super + alt + i
+	xset -led 3
+
+# Blah, blah, blah...
+C# Imágenes en FEH
+super + alt + d
+	feh -g 200x200 ~/Dropbox/FUN/demonbits.png
+
+# Abrir feh en ~/Imágenes
+super + alt + f
+	feh -rSfilename -g 300x300 ~/Imágenes
+# Abrir feh en ~/Dropbox/Shit
+super + alt + g
+	feh -rSfilename -g 300x300 ~/Dropbox/Shit
+# Abrir feh en ~/Dropbox/FUN
+super + alt + h
+	feh -rSfilename -g 300x300 ~/Dropbox/FUN
+# Algo poderoso :P
+super + alt + c
+	$HOME/.shit/imgs.sh
+
+# Recargar polybar
+super + ctrl + alt + p
+	$HOME/.config/polybar/launch.sh &

@@ -1,0 +1,345 @@
+# 
+# Tip: Si en algún momento se cambia la distribución
+# del teclado, basta con borrar éste archivo y
+# ejecutar i3-config-wizard.
+#
+
+# Tecla Windows como principal
+set $mod Mod4
+
+# Fuente usada en las barras de titulo.
+# También será usada en la barra en caso
+# de que no se declare una especificamente
+# en el bloque bar {} del final.
+#font pango:tewi 8
+font xft:tewi 8
+
+# Usa Mouse+Windows para mover ventanas flotantes
+floating_modifier $mod
+
+# Iniciar una terminal
+bindsym $mod+Return exec i3-sensible-terminal
+
+# Cerrar la ventana enfocada
+bindsym $mod+Shift+q kill
+
+# Cambiar el foco entre ventanas
+bindsym $mod+j focus left
+bindsym $mod+k focus down
+bindsym $mod+l focus up
+bindsym $mod+ntilde focus right
+
+# también se pueden usar las 'flechas'
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# Mover ventana enfocada
+bindsym $mod+Shift+j move left
+bindsym $mod+Shift+k move down
+bindsym $mod+Shift+l move up
+bindsym $mod+Shift+ntilde move right
+
+# también se pueden usar las 'flechas'
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# Orientación horizontal para las nuevas ventanas
+bindsym $mod+h split h
+
+# Orientación vertical para las nuevas ventanas
+bindsym $mod+v split v
+
+# Entrar a pantalla completa para la ventana en foco
+bindsym $mod+f fullscreen toggle
+
+# Cambiar la disposición de las ventanas (apiladas, en pestañas, alternar orientación)
+# Apiladas
+bindsym $mod+s layout stacking
+# En pestañas
+bindsym $mod+w layout tabbed
+# Alternar orientación
+bindsym $mod+e layout toggle split
+
+# Alternar entre 'cuadros' y flotante
+bindsym $mod+Shift+space floating toggle
+
+# Cambiar el foco entre ventanas a 'cuadros' / flotantes
+bindsym $mod+space focus mode_toggle
+
+# Enfocar el contenedor padre
+bindsym $mod+a focus parent
+
+# Enfocar el contenedor hijo
+#bindsym $mod+d focus child
+
+# Esconder los bordes verticales
+hide_edge_borders both
+
+# 1 pixel en borde para las nuevas ventanas
+new_window pixel 0
+
+# Asignar bordes a las aplicaciones
+for_window [class="^.*"] border pixel 1
+for_window [class="URxvt"] border pixel 1
+for_window [class="Lxappearance"] border pixel 1
+for_window [class="mpv"] border pixel 0
+for_window [class="Firefox"] border pixel 0
+for_window [class="Google-chrome-unstable"] border pixel 0
+for_window [class="Geany"] border pixel 0
+for_window [class="Feh"] border pixel 0
+
+# Variables para nombrar los espacios de trabajo
+set $espacio1 "1: Terminal "
+set $espacio2 "2: Chrome "
+set $espacio3 "3: Firefox "
+set $espacio4 "4: Música "
+set $espacio5 "5: Archivos "
+set $espacio6 "6: Editor "
+set $espacio7 "7: Chat "
+set $espacio8 "8: Incognito "
+set $espacio9 "9: Spotify "
+set $espacio10 "10: Torrents"
+
+# Cambiar al espacio de trabajo
+bindsym $mod+1 workspace $espacio1
+bindsym $mod+2 workspace $espacio2
+bindsym $mod+3 workspace $espacio3
+bindsym $mod+4 workspace $espacio4
+bindsym $mod+5 workspace $espacio5
+bindsym $mod+6 workspace $espacio6
+bindsym $mod+7 workspace $espacio7
+bindsym $mod+8 workspace $espacio8
+bindsym $mod+9 workspace $espacio9
+bindsym $mod+0 workspace $espacio10
+
+# Recorrer los espacios de trabajo existentes
+bindsym $mod+Tab workspace next
+
+# Mover contenedor a espacio de trabajo
+bindsym $mod+Shift+1 move container to workspace $espacio1
+bindsym $mod+Shift+2 move container to workspace $espacio2
+bindsym $mod+Shift+3 move container to workspace $espacio3
+bindsym $mod+Shift+4 move container to workspace $espacio4
+bindsym $mod+Shift+5 move container to workspace $espacio5
+bindsym $mod+Shift+6 move container to workspace $espacio6
+bindsym $mod+Shift+7 move container to workspace $espacio7
+bindsym $mod+Shift+8 move container to workspace $espacio8
+bindsym $mod+Shift+9 move container to workspace $espacio9
+bindsym $mod+Shift+0 move container to workspace $espacio10
+
+# Asignar espacios de trabajo a aplicaciones
+assign [class = "Google-chrome-unstable"] $espacio2
+assign [class = "Firefox"] $espacio3
+assign [class = "Thunar"] $espacio5
+assign [class = "Pcmanfm"] $espacio5
+assign [class = "Geany"] $espacio6
+assign [class = "Gedit"] $espacio6
+assign [class = "Gvim"] $espacio6
+assign [class = "discord"] $espacio7
+assign [class = "Transmission-gtk"] $espacio10
+
+# Especial para Spotify
+for_window [class="Spotify"] move to workspace $espacio9
+
+# Ventanas flotantes
+for_window [class="Pavucontrol"] floating enable
+for_window [class="mpv"] floating enable
+for_window [class="feh"] floating enable
+for_window [class="File-roller"] floating enable
+for_window [class="Xarchiver"] floating enable
+
+# Para evitar "accidentes" con las ventanas emergentes de algunas aplicaciones
+for_window [window_role="pop-up"] floating enable
+for_window [window_role="bubble"] floating enable
+for_window [window_role="task_dialog"] floating enable
+for_window [window_role="Preferences"] floating enable
+for_window [window_type="dialog"] floating enable
+for_window [window_type="menu"] floating enable
+
+# Recargar el archivo de configuración
+bindsym $mod+Shift+c reload
+# Reiniciar i3 in situ (mantiene la disposición/sesión)
+bindsym $mod+Shift+r restart
+# Salir de i3 (cierra tu sesión de X)
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+#bindsym $mod+Shift+e exec ~/.shit/scripts/exit_menu
+
+# Cambiar tamaño (también se puede usar el mouse)
+mode "resize" {
+        # These bindings trigger as soon as you enter the resize mode
+
+        # Pressing left will shrink the window’s width.
+        # Pressing right will grow the window’s width.
+        # Pressing up will shrink the window’s height.
+        # Pressing down will grow the window’s height.
+        bindsym j resize shrink width 10 px or 10 ppt
+        bindsym k resize grow height 10 px or 10 ppt
+        bindsym l resize shrink height 10 px or 10 ppt
+        bindsym ntilde resize grow width 10 px or 10 ppt
+
+        # same bindings, but for the arrow keys
+        bindsym Left resize shrink width 10 px or 10 ppt
+        bindsym Down resize grow height 10 px or 10 ppt
+        bindsym Up resize shrink height 10 px or 10 ppt
+        bindsym Right resize grow width 10 px or 10 ppt
+
+        # back to normal: Enter or Escape
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+
+bindsym $mod+r mode "resize"
+
+# Variables para colores
+set $bg-color 	         #2E3440
+set $inactive-bg-color   #2E3440
+set $text-color          #ECEFF4
+set $inactive-text-color #4C566A
+set $urgent-bg-color     #BF616A
+
+# Colores para las ventanas
+#                       border              background         text                 indicator
+client.focused          $bg-color           $bg-color          $text-color          #00ff00
+client.unfocused        $inactive-bg-color $inactive-bg-color $inactive-text-color #00ff00
+client.focused_inactive $inactive-bg-color $inactive-bg-color $inactive-text-color #00ff00
+client.urgent           $urgent-bg-color    $urgent-bg-color   $text-color          #00ff00
+
+# Iniciar la barra
+bar {
+	mode hide
+	status_command i3blocks -c ~/.config/i3blocks.conf
+	colors {
+		background $bg-color
+	    	separator #757575
+		#                  border             background         text
+		focused_workspace  $bg-color          $bg-color          $text-color
+		inactive_workspace $inactive-bg-color $inactive-bg-color $inactive-text-color
+		urgent_workspace   $urgent-bg-color   $urgent-bg-color   $text-color
+	}
+}
+
+# Automontaje de unidades de disco
+# exec --no-startup-id "devmon --no-gui"
+
+# Iniciar audio
+# exec --no-startup-id "pulseaudio --start"
+
+# Bloquear la PC con i3lock
+# Script --> https://www.reddit.com/r/unixporn/comments/3358vu/i3lock_unixpornworthy_lock_screen/cqknntb/
+bindsym $mod+Shift+x exec ~/.shit/lock/lock.sh -s -b
+#-o ~/.shit/lock/lock.png -b
+# i3lock --color 475263
+
+# Volumen
+# Subir
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% && notify-send -u normal `~/.shit/dunst/volume level`
+# Bajar
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% && notify-send -u normal `~/.shit/dunst/volume level`
+
+# Reproducción
+# Reproducir / Pausar
+bindsym XF86AudioPlay exec mpc toggle
+# Detener
+bindsym XF86AudioStop exec mpc stop
+# Siguiente
+bindsym XF86AudioNext exec mpc next
+# Anterior
+bindsym XF86AudioPrev exec mpc prev
+
+# Controles para Spotify con playerctl
+bindsym $mod+m mode "Spotify"
+mode "Spotify" {
+# Reproducir
+	bindsym XF86AudioPlay exec playerctl play-pause --player=spotify
+# Detener
+	bindsym XF86AudioStop exec playerctl stop --player=spotify
+# Siguiente
+	bindsym XF86AudioNext exec playerctl next --player=spotify
+# Anterior
+	bindsym XF86AudioPrev exec playerctl previous --player=spotify
+	
+	bindsym Escape mode "default"
+	bindsym Return mode "default"
+}
+
+# Abrir aplicaciones
+bindsym $mod+Shift+a mode "Aplicaciones"
+mode "Aplicaciones" {
+# Firefox
+	bindsym f exec firefox-beta
+# Chrome
+	bindsym c exec google-chrome-unstable
+# Discord
+	bindsym d exec discord
+# Spotify
+	bindsym s exec spotify
+# PcManFM
+	bindsym p exec pcmanfm
+# Geany
+	bindsym g exec geany
+# Thunar
+	bindsym t exec thunar
+# Transmission
+	bindsym r exec transmission-gtk
+	
+	bindsym Escape mode "default"
+	bindsym Return mode "default"
+}
+
+# Abrir feh en ~/Imágenes
+bindsym $mod+Shift+f exec feh -rSfilename -g 300x300 ~/Imágenes
+# Abrir feh en ~/Dropbox/Shit
+bindsym $mod+Shift+g exec feh -rSfilename -g 300x300 ~/Dropbox/Shit
+# Abrir feh en ~/Dropbox/FUN
+bindsym $mod+Shift+h exec feh -rSfilename -g 300x300 ~/Dropbox/FUN
+# Blah, blah, blah...
+bindsym $mod+Shift+d exec feh -g 200x200 ~/Dropbox/FUN/demonbits.png
+
+# Recargar dunst
+#bindsym $mod+Shift+t exec reload-dunst
+
+# Iniciar mpd
+#exec --no-startup-id mpd
+
+# Iniciar aplicaciones
+# Prueba
+#exec --no-startup-id chromium-dev
+#exec --no-startup-id firefox-beta
+#exec --no-startup-id spotify
+#exec --no-startup-id discord
+
+# Iniciar dunst, mpd-notification y enviar una notificación
+exec dunst
+# -config ~/config/dunst/dunstrc &
+exec mpd-notification
+#exec notify-send -u normal "Bienvenido ;)" -t 15000
+
+# Establecer fondo de escritorio
+#exec_always feh --bg-fill /home/alejandro/Imágenes/'Torrent (Final).png'
+
+# Iniciar compton para corregir errores de tearing
+#exec --no-startup-id compton --config ~/.config/compton.conf -b
+
+# Rofi
+#bindsym $mod+d exec rofi -show run -lines 5 -eh 2 -font "System San Francisco Display 12"
+# -lines 3 -eh 2 -width 100 -padding 800 -opacity "85" -bw 0 -bc "$bg-color" -bg "$bg-color" -fg "$text-color" -hlbg "$bg-color" -hlfg "#9575cd" -font "System San Francisco Display 18"
+
+# Teclado
+# Encender al inicio
+exec xset led 3
+# Encender
+bindsym $mod+Shift+o exec xset led 3
+# Apagar
+bindsym $mod+Shift+i exec xset -led 3
+
+# Capturas de pantalla
+# Completa
+bindsym $mod+Print exec scrot -q 100 '%d-%b-%Y_%H-%M-%S.png' -e 'mv $f ~/Imágenes/Capturas/'
+# Completa sin barra
+bindsym Print exec scrot -q 100 '%d-%b-%Y_%H-%M-%S.png' -e 'mv $f ~/Imágenes/Capturas/'
+# Selección
+bindsym $mod+Shift+Print exec maim -s -m 10 ~/Imágenes/Capturas/$(date +%d-%b-%Y_%H-%M-%S).png
